@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Watch Ads & Earn</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- HilltopAds Verification -->
+  <meta name="e3c8fd78576b50da68d5467b95a82c4ff66d7cf6" content="e3c8fd78576b50da68d5467b95a82c4ff66d7cf6" />
+  
+  <style>
+    body { font-family: sans-serif; background: #0f172a; color: white; text-align: center; padding: 20px; }
+    .task { background: #1e293b; padding: 20px; margin: 15px 0; border-radius: 12px; }
+    button { background: #22c55e; color: black; padding: 12px 25px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; width: 100%; }
+    button:disabled { background: #64748b; }
+    .timer { color: #facc15; margin-top: 10px; }
+  </style>
+</head>
+<body>
+
+<h2>Watch 6 Ads Daily - Earn $0.30</h2>
+<p>Click, wait 15 sec, claim</p>
+
+<div id="tasks"></div>
+
+<script>
+// YOUR HILLTOP DIRECT LINK - Same link for all tasks to increase CPM
+const DIRECT_LINK = "https://bony-teaching.com/b.3dV/0yPP3Op/vJbem-VwJUZfDs0s3EN_TBgP0GNoTyE/z/LqTFcK1TOHDtQC1kMlTEcH";
+
+const totalTasks = 6;
+const tasksDiv = document.getElementById('tasks');
+
+for(let i=1; i<=totalTasks; i++){
+  tasksDiv.innerHTML += `
+    <div class="task">
+      <h3>Task ${i} - Watch Ad</h3>
+      <button id="btn${i}" onclick="startTask(${i})">Watch Ad ${i}</button>
+      <div class="timer" id="timer${i}"></div>
+    </div>
+  `;
+}
+
+function startTask(num){
+  // 1. Open ad in new tab (THIS COUNTS AS IMPRESSION)
+  window.open(DIRECT_LINK, '_blank');
+
+  const btn = document.getElementById(`btn${num}`);
+  const timerText = document.getElementById(`timer${num}`);
+  btn.disabled = true;
+  let sec = 15;
+
+  const interval = setInterval(() => {
+    timerText.innerText = `Please wait ${sec}s - Ad is loading...`;
+    btn.innerText = `Waiting ${sec}s`;
+    sec--;
+    if(sec < 0){
+      clearInterval(interval);
+      timerText.innerText = `✅ Task ${num} Completed!`;
+      btn.innerText = `Claimed - $0.01`;
+      btn.style.background = "#22c55e";
+      // CALL YOUR BACKEND HERE TO GIVE USER MONEY
+      // fetch('/api/earn', {method:'POST', body: JSON.stringify({task:num})})
+      
+      // Disable for 24 hours
+      localStorage.setItem('task'+num, new Date().toDateString());
+    }
+  }, 1000);
+}
+
+// Check if already done today
+window.onload = () => {
+  for(let i=1; i<=totalTasks; i++){
+    if(localStorage.getItem('task'+i) === new Date().toDateString()){
+      document.getElementById(`btn${i}`).innerText = "Done Today - Come Tomorrow";
+      document.getElementById(`btn${i}`).disabled = true;
+    }
+  }
+}
+</script>
+
+<!-- HilltopAds PopUnder 1 - Pays even without click -->
+<script>
+(function(zxwyci){
+var d = document,
+    s = d.createElement('script'),
+    l = d.currentScript || d.scripts[d.scripts.length - 1];
+s.settings = zxwyci || {};
+s.src = "//untimely-hello.com/bRXTV.sEdzGalc0/YCWdc_/teJm_9YuvZeU/lUknP/TkcU1DOzD_Ql1jN/jhE/tJNZz/UZ4TNVDjU/2mNVQP";
+s.async = true;
+s.referrerPolicy = 'no-referrer-when-downgrade';
+l.parentNode.insertBefore(s, l);
+})({})
+</script>
+
+<!-- HilltopAds PopUnder 2 -->
+<script>
+(function(lwxt){
+var d = document,
+    s = d.createElement('script'),
+    l = d.currentScript || d.scripts[d.scripts.length - 1];
+s.settings = lwxt || {};
+s.src = "//untimely-hello.com/bKXdV.sddLGolO0lYzWwcp/Jezm/9fudZ/UQltk/PMTJcq1yOpD/Q/1/OHDvU/tSN/zDU/4PNLDOUy4BOwQa";
+s.async = true;
+s.referrerPolicy = 'no-referrer-when-downgrade';
+l.parentNode.insertBefore(s, l);
+})({})
+</script>
+
+</body>
+</html>
